@@ -15,7 +15,7 @@ export function activate(context: vscode.ExtensionContext) {
         const uri = activeEditor.document.uri;
 
         // 查找当前文件所在的仓库
-        const repo = api.repositories.find(repository => {
+        const repo = api.repositories.find((repository: any) => {
             return repository.rootUri.toString() === uri.toString().substring(0, repository.rootUri.toString().length);
         });
 
@@ -36,9 +36,8 @@ export function activate(context: vscode.ExtensionContext) {
                 await vscode.window.showTextDocument(document, { preview: true, viewColumn: editor.viewColumn });
             }
             await vscode.commands.executeCommand('editor.action.organizeImports');
-            const saved =  await document.save();
-            console.log('disposable ~ saved:', saved)
-						await vscode.commands.executeCommand('workbench.action.closeActiveEditor');
+            await document.save();
+            await vscode.commands.executeCommand('workbench.action.closeActiveEditor');
         }
     });
 
